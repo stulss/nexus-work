@@ -106,13 +106,21 @@ def main():
     stage(1, "정찰")
     status, headers, text = c.get("/healthz")
     server_hdr = headers.get("Server", "")
-    if status == 200 and server_hdr and "Werkzeug" not in server_hdr:
+    if status == 0:
+        results.append(fail(f"/healthz 연결 실패 — 이 대상({args.base})에 네트워크 경로가 없음: {text[:150]}"))
+        print_report(args, results)
+        sys.exit(1)
+    elif status == 200 and server_hdr and "Werkzeug" not in server_hdr:
         results.append(ok(f"/healthz 200, Server 헤더='{server_hdr}' (버전 비노출)"))
     else:
         results.append(fail(f"/healthz status={status}, Server='{server_hdr}'"))
 
     stage(2, "초기 접근 — 확보한 직원 계정으로 로그인")
     status, _, text = c.login(args.user, args.password)
+    if status == 0:
+        results.append(fail(f"{args.user} 로그인 실패 — 서버에 연결되지 않음({text[:120]})"))
+        print_report(args, results)
+        sys.exit(1)
     if status in (302, 303) or "로그인" not in text:
         results.append(ok(f"{args.user} 로그인 성공(status={status})"))
     else:
