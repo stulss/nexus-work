@@ -53,7 +53,7 @@ def test_no_route_is_accidentally_public(app, client):
         if rule.endpoint == "static":
             continue
         path = re.sub(r"<[^>]+>", "1", rule.rule)
-        is_token_api = path.startswith("/api/v1/")
+        is_token_api = path.startswith("/api/v1/") or path.startswith("/internal/api/v1/")   # 내부 API 도 Authorization 토큰 체계다
         for method in rule.methods - {"HEAD", "OPTIONS"}:
             r = client.open(path, method=method)
             if is_token_api:

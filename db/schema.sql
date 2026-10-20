@@ -10,6 +10,7 @@ CREATE TABLE users (
   locked_until  DATETIME     NULL,
   session_version INT UNSIGNED NOT NULL DEFAULT 0,   -- 로그아웃·비밀번호 변경 때 올려 이전 세션 쿠키를 모두 무효화한다
   pinned        TINYINT(1)   NOT NULL DEFAULT 0,     -- 1 이면 최상위(admin) 권한 고정 계정: 보안관제팀 소속과 시스템관리자(아래 트리거가 정한다)
+  ai_restricted TINYINT(1)   NOT NULL DEFAULT 0,     -- 1 이면 AI 어시스턴트의 Tool(문서 검색·열람·API)을 쓸 수 없다. n8n 이 R3 대응으로 바꾸고, 다음 요청부터 적용된다
   created_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
@@ -130,14 +131,28 @@ CREATE TABLE profile_photos (
 ) ENGINE=InnoDB;
 
 -- 챗봇 대화 기록: 본인 것만 조회(앱에서 user_id 로 강제)
+-- 대화방(GPT 식 여러 대화): 제목은 첫 질문에서 따온다. 본인 것만 조회·사용(앱에서 user_id 로 강제).
+CREATE TABLE chat_conversations (
+  id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id    INT UNSIGNED NOT NULL,
+  title      VARCHAR(80)  NOT NULL DEFAULT '새 대화',
+  created_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  KEY idx_conv_user (user_id, updated_at),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB;
+
 CREATE TABLE chat_messages (
   id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   user_id    INT UNSIGNED NOT NULL,
+  conversation_id INT UNSIGNED NULL,
   sender     ENUM('user','assistant') NOT NULL,
   content    TEXT         NOT NULL,
   created_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   KEY idx_chat_user (user_id, id),
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  KEY idx_chat_conv (conversation_id, id),
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (conversation_id) REFERENCES chat_conversations(id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE expenses (

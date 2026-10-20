@@ -403,3 +403,32 @@ ol.top li { padding: 0.1rem 0; }
 .top-n { float: right; font-weight: 800; }
 pre.raw { white-space: pre-wrap; word-break: break-all; max-width: 28rem; margin: 0.3rem 0 0; padding: 0.5rem; background: var(--paper); border: 1px solid var(--line-soft); border-radius: var(--radius); font-size: 0.8rem; }
 table.audit details summary { cursor: pointer; color: var(--pen); }
+
+/* ---- AI 채팅방: 왼쪽 대화 목록 + 오른쪽 대화(GPT 식). 말풍선 없이 줄로 쌓는 기존 대화 기록 모양을 그대로 쓴다 ---- */
+.chat-layout { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 1rem; align-items: start; }
+.chat-side { background: var(--sheet); border: 1px solid var(--line-soft); border-radius: var(--radius); box-shadow: var(--shadow); padding: 0.8rem; position: sticky; top: 0.5rem; }
+.chat-new { display: block; text-align: center; margin-bottom: 0.7rem; }
+.chat-list { list-style: none; margin: 0; padding: 0; max-height: 60vh; overflow-y: auto; }
+.chat-item { display: block; padding: 0.45rem 0.6rem; border-radius: var(--radius); color: var(--ink); text-decoration: none; border-left: 3px solid transparent; }
+.chat-item:hover { background: var(--paper); }
+.chat-item.active { background: #e8effd; border-left-color: var(--pen); font-weight: 700; }
+.chat-item-title { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chat-item time { display: block; color: var(--ink-2); font-size: 0.78rem; font-weight: 400; }
+.chat-list-empty { padding: 0.4rem 0.6rem; }
+.chat-main { padding: 1rem 1.2rem; min-width: 0; }
+.chat-scroll { max-height: 60vh; min-height: 14rem; overflow-y: auto; border-bottom: 1px solid var(--line-soft); margin-bottom: 0.8rem; }
+.chat-scroll .thread { margin-bottom: 0.4rem; }
+.chat-empty { padding: 2rem 0.5rem; text-align: center; }
+.chat-label { position: absolute; left: -999px; }
+.chat-actions { display: flex; gap: 1rem; align-items: center; justify-content: space-between; }
+.chat-actions .hint { margin: 0; }
+.msg-pending .msg-body { color: var(--ink-2); }
+.msg-pending .msg-body::after { content: "..."; display: inline-block; width: 1.4em; text-align: left; animation: chat-dots 1.2s steps(4, end) infinite; overflow: hidden; vertical-align: bottom; }
+@keyframes chat-dots { 0% { width: 0; } 100% { width: 1.4em; } }
+@media (prefers-reduced-motion: reduce) { .msg-pending .msg-body::after { animation: none; } }
+@media (max-width: 52rem) {
+  .chat-layout { grid-template-columns: 1fr; }
+  .chat-side { position: static; }
+  .chat-list { max-height: 11rem; }
+  .chat-actions { flex-direction: column; align-items: stretch; }
+}

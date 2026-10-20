@@ -14,10 +14,13 @@ def say(client, message="안녕하세요", **extra):
 
 
 def add_messages(root, name, count, prefix="zz_기록"):
+    """대화방 하나를 만들고 그 안에 기록을 넣는다(가장 최근 대화방이 되어 /chat 에 열린다)."""
     with root.cursor() as cur:
+        cur.execute("INSERT INTO chat_conversations(user_id,title) VALUES(%s,%s)", (uid(root, name), prefix))
+        conv = cur.lastrowid
         for i in range(count):
-            cur.execute("INSERT INTO chat_messages(user_id,sender,content) VALUES(%s,%s,%s)",
-                        (uid(root, name), "user" if i % 2 == 0 else "assistant", f"{prefix}{i:03d}"))
+            cur.execute("INSERT INTO chat_messages(user_id,conversation_id,sender,content) VALUES(%s,%s,%s,%s)",
+                        (uid(root, name), conv, "user" if i % 2 == 0 else "assistant", f"{prefix}{i:03d}"))
 
 
 def use_responder(app, fn):
@@ -115,7 +118,7 @@ def test_user_text_and_reply_are_escaped(aapp, root):
     say(c, "<script>alert(1)</script><img src=x onerror=alert(2)>")
     html = c.get("/chat").get_data(as_text=True)                       # 시험 응답은 입력을 그대로 되돌려 준다
     assert "&lt;script&gt;alert(1)&lt;/script&gt;" in html and "&lt;img src=x onerror=alert(2)&gt;" in html
-    assert "<script" not in html and "<img" not in html
+    assert "<script>alert" not in html and "<img src=x" not in html   # 화면의 chat.js 불러오기 태그와 구분한다
 
 
 def test_assistant_output_is_never_interpreted_as_html(aapp, root):
@@ -124,7 +127,7 @@ def test_assistant_output_is_never_interpreted_as_html(aapp, root):
     say(c, "아무거나")
     html = c.get("/chat").get_data(as_text=True)
     assert "&lt;script&gt;steal()&lt;/script&gt;" in html and "&lt;a href=&#34;javascript:alert(1)&#34;&gt;" in html
-    assert "<script" not in html and "<a href=\"javascript" not in html
+    assert "<script>steal" not in html and "<a href=\"javascript" not in html
 
 
 # ---------- 응답기 접점 ----------

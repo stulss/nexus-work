@@ -40,7 +40,7 @@ def run(con, sql):
 
 
 APP_ALLOWED = [f"SELECT COUNT(*) FROM {t}" for t in (
-    "users", "employees", "documents", "posts", "attachments", "chat_messages", "expenses", "approvals",
+    "users", "employees", "documents", "posts", "attachments", "chat_messages", "chat_conversations", "expenses", "approvals",
     "approval_steps", "profile_photos", "attendance", "leave_requests", "approval_cc", "approval_files", "expenditures", "expenditure_items",
     "projects", "project_members", "tasks", "task_comments", "events", "event_attendees", "resources", "reservations",
     "lib_folders", "lib_files", "lib_forms", "contacts")]
@@ -125,6 +125,9 @@ APP_DENIED = [
     "DELETE FROM approvals",
     "DELETE FROM approval_steps",
     "UPDATE chat_messages SET content='x'",
+    "UPDATE chat_conversations SET user_id=1",   # 대화방 소유자는 바꿀 수 없다(제목·갱신 시각만)
+    "DELETE FROM chat_conversations",
+    "UPDATE users SET ai_restricted=1",           # AI 제한은 n8n 전용 계정의 몫이다(앱 계정은 바꿀 수 없다)
     # 상태 전이에 필요한 열 외에는 수정할 수 없다(소유자·금액·상신자·결재자 변경 불가)
     "UPDATE expenses SET amount=1",
     "UPDATE expenses SET user_id=1",

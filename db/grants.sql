@@ -15,6 +15,8 @@ GRANT SELECT                 ON `__DB__`.documents     TO 'nexus_app'@'%';
 GRANT SELECT, INSERT, DELETE ON `__DB__`.posts         TO 'nexus_app'@'%';
 GRANT SELECT, INSERT, DELETE ON `__DB__`.attachments   TO 'nexus_app'@'%';
 GRANT SELECT, INSERT         ON `__DB__`.chat_messages TO 'nexus_app'@'%';
+GRANT SELECT, INSERT         ON `__DB__`.chat_conversations TO 'nexus_app'@'%';
+GRANT UPDATE (title, updated_at) ON `__DB__`.chat_conversations TO 'nexus_app'@'%';
 -- 근태: 출근은 INSERT, 퇴근은 check_out 열만 UPDATE. 삭제 없음(이력 유지).
 GRANT SELECT, INSERT         ON `__DB__`.attendance TO 'nexus_app'@'%';
 GRANT UPDATE (check_out)     ON `__DB__`.attendance TO 'nexus_app'@'%';

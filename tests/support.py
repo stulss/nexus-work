@@ -42,6 +42,7 @@ def cleanup(con):
         cur.execute(f"DELETE FROM expenses WHERE user_id IN {_ZZ}")
         cur.execute(f"DELETE FROM payroll WHERE user_id IN {_ZZ}")
         cur.execute(f"DELETE FROM chat_messages WHERE user_id IN {_ZZ}")
+        cur.execute(f"DELETE FROM chat_conversations WHERE user_id IN {_ZZ}")
         cur.execute("DELETE FROM documents WHERE title LIKE 'zz\\_%'")
         cur.execute("DELETE FROM confidential_documents WHERE title LIKE 'zz\\_%'")
         cur.execute("DELETE FROM financial_reports WHERE title LIKE 'zz\\_%'")
