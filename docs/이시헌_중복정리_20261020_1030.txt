@@ -1,0 +1,22 @@
+﻿[FIX] 새 중복 규칙 일시중지: NEXUS R1 계정 대상 로그인 실패 3회+ - 삭제 아님, Graylog 에서 다시 켤 수 있음
+[FIX] 새 중복 규칙 일시중지: NEXUS R1 계정 잠금 발생 - 삭제 아님, Graylog 에서 다시 켤 수 있음
+[FIX] 새 중복 규칙 일시중지: NEXUS T1 로그인 실패 반복(출발지) - 삭제 아님, Graylog 에서 다시 켤 수 있음
+[FIX] 새 중복 규칙 일시중지: NEXUS T2 잠긴 계정으로 로그인 시도 - 삭제 아님, Graylog 에서 다시 켤 수 있음
+[FIX] 새 중복 규칙 일시중지: NEXUS T4 속도 제한 차단 반복 - 삭제 아님, Graylog 에서 다시 켤 수 있음
+[FIX] 새 중복 규칙 일시중지: NEXUS T5 CSRF 차단 반복 - 삭제 아님, Graylog 에서 다시 켤 수 있음
+[FIX] 새 중복 규칙 일시중지: NEXUS T7 업로드 거부 반복 - 삭제 아님, Graylog 에서 다시 켤 수 있음
+[FIX] 새 중복 규칙 일시중지: NEXUS T8 권한 거부 반복 - 삭제 아님, Graylog 에서 다시 켤 수 있음
+[FIX] 새 중복 규칙 일시중지: NEXUS W1 404 스캔(웹 스캐너) - 삭제 아님, Graylog 에서 다시 켤 수 있음
+[OK] 기존 규칙 유지: [NEXUS] 404 경로 스캔 - 조건: portal_scope:nexus_team AND event_type:not_found | 알림: NEXUS 포털 위협 지표 → Discord <http://host.docker.internal:5678/webhook/nexus-portal-alert>
+[OK] 기존 규칙 유지: [NEXUS] CSRF 차단 반복 - 조건: portal_scope:nexus_team AND event_type:csrf_fail | 알림: NEXUS 포털 위협 지표 → Discord <http://host.docker.internal:5678/webhook/nexus-portal-alert>
+[OK] 기존 규칙 유지: [NEXUS] 계정 잠금 발생 - 조건: portal_scope:nexus_team AND event_type:account_locked | 알림: NEXUS 포털 위협 지표 → Discord <http://host.docker.internal:5678/webhook/nexus-portal-alert>
+[OK] 기존 규칙 유지: [NEXUS] 권한 거부 반복 - 조건: portal_scope:nexus_team AND event_type:authz_deny | 알림: NEXUS 포털 위협 지표 → Discord <http://host.docker.internal:5678/webhook/nexus-portal-alert>
+[OK] 기존 규칙 유지: [NEXUS] 로그인 실패 - 조건: portal_scope:nexus_team AND event_type:login_failure | 알림: NEXUS 포털 위협 지표 → Discord <http://host.docker.internal:5678/webhook/nexus-portal-alert>
+[OK] 기존 규칙 유지: [NEXUS] 속도 제한 반복 - 조건: portal_scope:nexus_team AND event_type:rate_limited | 알림: NEXUS 포털 위협 지표 → Discord <http://host.docker.internal:5678/webhook/nexus-portal-alert>
+[OK] 기존 규칙 유지: [NEXUS] 업로드 거부 반복 - 조건: portal_scope:nexus_team AND event_type:upload_reject | 알림: NEXUS 포털 위협 지표 → Discord <http://host.docker.internal:5678/webhook/nexus-portal-alert>
+[OK] 기존 규칙 유지: [NEXUS] 의심 입력 반복 - 조건: portal_scope:nexus_team AND event_type:suspicious_input | 알림: NEXUS 포털 위협 지표 → Discord <http://host.docker.internal:5678/webhook/nexus-portal-alert>
+[OK] 기존 규칙 유지: [NEXUS] 잠금 후 재시도 - 조건: portal_scope:nexus_team AND event_type:login_locked | 알림: NEXUS 포털 위협 지표 → Discord <http://host.docker.internal:5678/webhook/nexus-portal-alert>
+[INFO] 입력 pfsense syslog test - 1514 RUNNING
+[INFO] 입력 hping3 lab - 12201 RUNNING
+[INFO] 입력 NEXUS Wazuh syslog UDP 5140 - 5140 RUNNING
+[INFO] 입력 Wazuh Alerts (JSON over UDP 5140) - 5140 RUNNING

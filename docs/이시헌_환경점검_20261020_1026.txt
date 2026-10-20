@@ -1,0 +1,30 @@
+﻿[OK] 컨테이너 gl-graylog - Up 2 hours (healthy)
+[OK] 컨테이너 n8n - Up 48 minutes
+[OK] 컨테이너 ollama - Up About an hour
+[OK] 컨테이너 wazuh-manager - Up 2 hours
+[INFO] Graylog 공개 포트 - 1514/udp -> 0.0.0.0:1514; 1514/udp -> [::]:1514; 9000/tcp -> 0.0.0.0:9000; 9000/tcp -> [::]:9000; 12201/tcp -> 0.0.0.0:12201; 12201/tcp -> [::]:12201; 12201/udp -> 0.0.0.0:12201; 12201/udp -> [::]:12201
+[OK] 포털 192.168.3.14:5070
+[OK] Graylog UI/API 127.0.0.1:9000
+[OK] n8n 127.0.0.1:5678
+[OK] Ollama 127.0.0.1:11434
+[OK] Wazuh agent 수신 127.0.0.1:1514
+[OK] 포털 /healthz - ok
+[INFO] 이 PC 주소 - 172.16.50.10, 172.16.50.1, 172.26.32.1, 192.168.81.1, 192.168.189.1, 192.168.3.10
+[OK] Ollama API - 모델: qwen2.5:3b
+[OK] Ollama 응답 시험 - 1.8초, "안녕하세요, 무엇을 도와드릴까요?"
+[OK] Ollama 외부 바인딩 - 0.0.0.0:11434 [::]:11434 (팀원 접속은 0.0.0.0 이어야 함)
+[WARN] 방화벽 NEXUS Ollama 11434 없음 - 관리자 PowerShell 로 다시 실행
+[WARN] 방화벽 NEXUS Graylog GELF 12201 없음 - 관리자 PowerShell 로 다시 실행
+[WARN] 방화벽 NEXUS Graylog GELF TCP 12201 없음 - 관리자 PowerShell 로 다시 실행
+[WARN] 방화벽 NEXUS Graylog UI 9000 없음 - 관리자 PowerShell 로 다시 실행
+[WARN] 방화벽 NEXUS n8n 5678 없음 - 관리자 PowerShell 로 다시 실행
+[WARN] 방화벽 NEXUS Wazuh agent 1514 없음 - 관리자 PowerShell 로 다시 실행
+[WARN] 방화벽 NEXUS Wazuh enroll 1515 없음 - 관리자 PowerShell 로 다시 실행
+[WARN] 방화벽 NEXUS pfSense syslog 1514 없음 - 관리자 PowerShell 로 다시 실행
+[OK] Wazuh → Graylog syslog 5140
+[INFO] Wazuh agent - ID: 000, Name: wazuh-manager (server), IP: 127.0.0.1, Active/Local
+[INFO] Wazuh agent - ID: 001, Name: board-host, IP: any, Active
+[WARN] 포털 서버 Wazuh agent - 192.168.3.14 agent 가 아직 등록되지 않음(김태빈·홍주형 PC 에서 설치 필요)
+[OK] Wazuh FIM(포털 문서함·업로드)
+[OK] n8n /healthz
+[FAIL] Graylog API -  A positional parameter cannot be found that accepts argument 'GET'.

@@ -1,0 +1,54 @@
+﻿[OK] 컨테이너 gl-graylog - Up 2 hours (healthy)
+[OK] 컨테이너 n8n - Up 50 minutes
+[OK] 컨테이너 ollama - Up About an hour
+[OK] 컨테이너 wazuh-manager - Up 2 hours
+[INFO] Graylog 공개 포트 - 1514/udp -> 0.0.0.0:1514; 1514/udp -> [::]:1514; 9000/tcp -> 0.0.0.0:9000; 9000/tcp -> [::]:9000; 12201/tcp -> 0.0.0.0:12201; 12201/tcp -> [::]:12201; 12201/udp -> 0.0.0.0:12201; 12201/udp -> [::]:12201
+[OK] 포털 192.168.3.14:5070
+[OK] Graylog UI/API 127.0.0.1:9000
+[OK] n8n 127.0.0.1:5678
+[OK] Ollama 127.0.0.1:11434
+[OK] Wazuh agent 수신 127.0.0.1:1514
+[OK] 포털 /healthz - ok
+[INFO] 이 PC 주소 - 172.16.50.10, 172.16.50.1, 172.26.32.1, 192.168.81.1, 192.168.189.1, 192.168.3.10
+[OK] Ollama API - 모델: qwen2.5:3b
+[OK] Ollama 응답 시험 - 2.0초, "안녕하세요, 무엇을 도와드릴까요?"
+[OK] Ollama 외부 바인딩 - 0.0.0.0:11434 [::]:11434 (팀원 접속은 0.0.0.0 이어야 함)
+[WARN] 방화벽 NEXUS Ollama 11434 없음 - 관리자 PowerShell 로 다시 실행
+[WARN] 방화벽 NEXUS Graylog GELF 12201 없음 - 관리자 PowerShell 로 다시 실행
+[WARN] 방화벽 NEXUS Graylog GELF TCP 12201 없음 - 관리자 PowerShell 로 다시 실행
+[WARN] 방화벽 NEXUS Graylog UI 9000 없음 - 관리자 PowerShell 로 다시 실행
+[WARN] 방화벽 NEXUS n8n 5678 없음 - 관리자 PowerShell 로 다시 실행
+[WARN] 방화벽 NEXUS Wazuh agent 1514 없음 - 관리자 PowerShell 로 다시 실행
+[WARN] 방화벽 NEXUS Wazuh enroll 1515 없음 - 관리자 PowerShell 로 다시 실행
+[WARN] 방화벽 NEXUS pfSense syslog 1514 없음 - 관리자 PowerShell 로 다시 실행
+[OK] Wazuh → Graylog syslog 5140
+[INFO] Wazuh agent - ID: 000, Name: wazuh-manager (server), IP: 127.0.0.1, Active/Local
+[INFO] Wazuh agent - ID: 001, Name: board-host, IP: any, Active
+[WARN] 포털 서버 Wazuh agent - 192.168.3.14 agent 가 아직 등록되지 않음(김태빈·홍주형 PC 에서 설치 필요)
+[OK] Wazuh FIM(포털 문서함·업로드)
+[OK] n8n /healthz
+[OK] Graylog 입력 hping3 lab - 12201 RUNNING
+[FIX] Graylog 입력 NEXUS Wazuh syslog UDP 5140 - Wazuh 경보
+[OK] Graylog 입력 pfsense syslog test - 1514 RUNNING
+[OK] Graylog → n8n 알림 '3-n8n Webhook (ip-block)' - http://host.docker.internal:5678/webhook/ip-block
+[INFO] 기존 규칙 '[NEXUS] ë¡ê·¸ì¸ ì¤í¨' - NEXUS T1 로그인 실패 반복(출발지) 와 같은 이벤트를 다룸(보존)
+[FIX] 탐지 규칙 NEXUS T1 로그인 실패 반복(출발지) - /, 묶음: src_ip
+[INFO] 기존 규칙 '[NEXUS] ë¡ê·¸ì¸ ì¤í¨' - NEXUS R1 계정 대상 로그인 실패 3회+ 와 같은 이벤트를 다룸(보존)
+[FIX] 탐지 규칙 NEXUS R1 계정 대상 로그인 실패 3회+ - /, 묶음: user
+[INFO] 기존 규칙 '[NEXUS] ì ê¸ í ì¬ìë' - NEXUS T2 잠긴 계정으로 로그인 시도 와 같은 이벤트를 다룸(보존)
+[FIX] 탐지 규칙 NEXUS T2 잠긴 계정으로 로그인 시도 - /, 묶음: src_ip,user
+[INFO] 기존 규칙 '[NEXUS] ê³ì  ì ê¸ ë°ì' - NEXUS R1 계정 잠금 발생 와 같은 이벤트를 다룸(보존)
+[FIX] 탐지 규칙 NEXUS R1 계정 잠금 발생 - /, 묶음: user,src_ip
+[INFO] 기존 규칙 '[NEXUS] ìë ì í ë°ë³µ' - NEXUS T4 속도 제한 차단 반복 와 같은 이벤트를 다룸(보존)
+[FIX] 탐지 규칙 NEXUS T4 속도 제한 차단 반복 - /, 묶음: src_ip
+[INFO] 기존 규칙 '[NEXUS] CSRF ì°¨ë¨ ë°ë³µ' - NEXUS T5 CSRF 차단 반복 와 같은 이벤트를 다룸(보존)
+[FIX] 탐지 규칙 NEXUS T5 CSRF 차단 반복 - /, 묶음: src_ip
+[INFO] 기존 규칙 '[NEXUS] ìì¬ ìë ¥ ë°ë³µ' - NEXUS T6 의심 입력(SQLi·XSS·경로조작) 와 같은 이벤트를 다룸(보존)
+[FAIL] 탐지 규칙 NEXUS T6 의심 입력(SQLi·XSS·경로조작) - {"errors":{"key_spec":["Event Definition key_spec can only contain fields defined in field_spec."]},"error_context":{},"failed":true}
+[INFO] 기존 규칙 '[NEXUS] ìë¡ë ê±°ë¶ ë°ë³µ' - NEXUS T7 업로드 거부 반복 와 같은 이벤트를 다룸(보존)
+[FIX] 탐지 규칙 NEXUS T7 업로드 거부 반복 - /, 묶음: src_ip
+[INFO] 기존 규칙 '[NEXUS] ê¶í ê±°ë¶ ë°ë³µ' - NEXUS T8 권한 거부 반복 와 같은 이벤트를 다룸(보존)
+[FIX] 탐지 규칙 NEXUS T8 권한 거부 반복 - /, 묶음: src_ip,user
+[INFO] 기존 규칙 '[NEXUS] 404 ê²½ë¡ ì¤ìº' - NEXUS W1 404 스캔(웹 스캐너) 와 같은 이벤트를 다룸(보존)
+[FIX] 탐지 규칙 NEXUS W1 404 스캔(웹 스캐너) - /, 묶음: src_ip
+[OK] 최근 1시간 포털 로그 수신 - 113 건 
