@@ -9,10 +9,11 @@ import subprocess
 import threading
 from datetime import datetime, timezone
 
-from flask import Blueprint, current_app, jsonify, request
+from flask import Blueprint, Response, current_app, jsonify, request
 from . import db, security
 
 bp = Blueprint('monitoring', __name__, url_prefix='/api/v1/security')
+feed_bp = Blueprint('xdr_feed', __name__, url_prefix='/feeds')
 PROTECTED = {'127.0.0.1', '::1', '172.16.50.1', '172.16.50.2',
              '172.16.50.10', '192.168.3.10', '192.168.3.14', '192.168.81.1', '192.168.81.128'}
 FIELDS = set('ts event_type user role src_ip method path decision reason request_id source_component severity action target outcome integration_test'.split())
@@ -48,6 +49,7 @@ def init_app(app):
     if len(token)<32: raise RuntimeError('NEXUS_RESPONSE_TOKEN must be configured')
     app.config['NEXUS_RESPONSE_TOKEN']=token
     app.register_blueprint(bp)
+    app.register_blueprint(feed_bp)
     logger=logging.getLogger('nexus.security')
     if not any(isinstance(h,GelfHandler) for h in logger.handlers): logger.addHandler(GelfHandler())
 
@@ -108,6 +110,26 @@ def firewall(action,ip):
                            '/sbin/pfctl -t NEXUS_AUTO_BLOCK -T show'],capture_output=True,text=True,timeout=12)
     if verify.returncode or ((str(address) in verify.stdout.split()) != (action=='block')):
         raise RuntimeError('firewall_verification_failed')
+
+
+@feed_bp.get('/xdr-blocked-ips.txt')
+def xdr_blocked_ips_feed():
+    """Read-only plain-text feed of the live NEXUS_AUTO_BLOCK pf table, one IP per
+    line, for pfSense's own URL Table alias to pull on a schedule. No auth: only
+    IP addresses already being blocked are exposed, nothing sensitive."""
+    try:
+        result=subprocess.run(['ssh','-o','BatchMode=yes','-o','ConnectTimeout=5',
+                               '-o','StrictHostKeyChecking=yes','-i',
+                               'C:/Users/user/.ssh/pfsense_admin','admin@172.16.50.2',
+                               '/sbin/pfctl -t NEXUS_AUTO_BLOCK -T show'],
+                              capture_output=True,text=True,timeout=12)
+        if result.returncode:
+            return Response('', mimetype='text/plain'), 502
+        ips=[line.strip() for line in result.stdout.splitlines() if line.strip()]
+        body='\n'.join(ips)+('\n' if ips else '')
+        return Response(body, mimetype='text/plain')
+    except Exception:
+        return Response('', mimetype='text/plain'), 502
 
 
 @bp.post('/block')
