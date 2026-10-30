@@ -334,28 +334,6 @@ def ingest_ai_xdr_event():
     return jsonify(ok=True, **result), 202
 
 
-@bp.post("/incidents/events")
-def ingest_incident_event():
-    """n8n pushes an allowlisted Ticket/Alert snapshot into the local Incident DB."""
-    if ip_rate_limited(f"internal_api:{get_client_ip()}", RATE_LIMIT):
-        log_event("rate_limited", "BLOCK", "internal_api_limit", via="direct")
-        return jsonify(ok=False, error="rate_limited"), 429
-    token = _extract_token(request)
-    authorized, _ = internal_api("/incidents/events", token, "direct")
-    if not authorized:
-        return jsonify(ok=False, error="unauthorized"), 401
-
-    from . import incidents
-    try:
-        result = incidents.ingest_event(request.get_json(silent=True))
-    except ValueError as exc:
-        return jsonify(ok=False, error=str(exc)), 422
-    except Exception as exc:  # database details and incoming payload stay out of the response/log.
-        log_event("incident_event_intake", "ERROR", type(exc).__name__)
-        return jsonify(ok=False, error="intake_failed"), 503
-    return jsonify(ok=True, **result), 202
-
-
 @bp.post("/ai-xdr/process")
 def process_ai_xdr_windows():
     denied = _authorize_xdr("/ai-xdr/process")

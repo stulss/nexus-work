@@ -6,7 +6,7 @@
   <p class="hint">기존 Ticket과 탐지·대응 이력을 조회하고 종결합니다. AI 분석과 차단 대응은 AI-XDR 화면에서 관리합니다.</p>
   <p><a class="btn" href="{{ url_for('admin.xdr_assessments') }}">AI-XDR 판정 보기</a></p>
   {% if unavailable %}
-    <p class="alert" role="alert">Ticket 정보를 불러오지 못했습니다. 서버 로그에서 Ticket API 연결 상태를 확인하세요.</p>
+    <p class="alert" role="alert">로컬 Incident 저장소를 읽을 수 없습니다. 서버 로그에서 DB 연결 상태를 확인하세요.</p>
   {% elif incidents %}
   {% if xdr_unavailable %}<p class="hint">AI-XDR 요약을 불러오지 못했습니다. Ticket 목록은 표시합니다.</p>{% endif %}
   <div class="scroll">
