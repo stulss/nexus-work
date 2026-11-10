@@ -1,0 +1,17 @@
+.venv
+requirements.txt
+__pycache__
+*.pyc
+*.py
+app/
+tests/
+db/
+repro-package/
+security_migration/
+scripts/
+.pytest_cache
+.serena
+.agents
+.claude
+logs/
+instance/
